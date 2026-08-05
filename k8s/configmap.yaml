@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: devops-monitoring-portal-config
+data:
+  SPRING_PROFILES_ACTIVE: "prod"
+  MYSQL_URL: "jdbc:mysql://mysql.default.svc.cluster.local:3306/devops_monitoring?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
+  MYSQL_USERNAME: "monitoring_user"
+  APP_ENVIRONMENT: "prod"
+  APP_VERSION: "1.0.0"
+  BUILD_NUMBER: "0"
+  BUILD_TIMESTAMP: "2026-01-01T00:00:00"
+  IMAGE_TAG: "latest"
+  GIT_COMMIT_ID: "unknown"
+  BRANCH_NAME: "main"
+  DEPLOYMENT_TIME: "2026-01-01T00:00:00"
+  ADMIN_USERNAME: "admin"

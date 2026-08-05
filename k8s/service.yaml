@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: devops-monitoring-portal
+  labels:
+    app: devops-monitoring-portal
+spec:
+  type: ClusterIP
+  selector:
+    app: devops-monitoring-portal
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
