@@ -19,6 +19,8 @@ spec:
       labels:
         app: devops-monitoring-portal
     spec:
+      imagePullSecrets:
+        - name: acr-pull-secret
       containers:
         - name: devops-monitoring-portal
           image: sd1centralindiaacr.azurecr.io/devops-monitoring-portal:latest

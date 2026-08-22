@@ -65,15 +65,19 @@ jobs:
         with:
           resource-group: ${{ secrets.AKS_RESOURCE_GROUP }}
           cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
-      - name: Ensure AKS can pull from ACR
-        run: |
-          az aks update \
-            --resource-group ${{ secrets.AKS_RESOURCE_GROUP }} \
-            --name ${{ secrets.AKS_CLUSTER_NAME }} \
-            --attach-acr ${{ secrets.ACR_NAME }}
       - name: Resolve ACR login server
         id: acr
         run: echo "login_server=$(az acr show --name ${{ secrets.ACR_NAME }} --query loginServer -o tsv)" >> "$GITHUB_OUTPUT"
+      - name: Create image pull secret
+        run: |
+          az acr update --name ${{ secrets.ACR_NAME }} --admin-enabled true
+          ACR_USERNAME=$(az acr credential show --name ${{ secrets.ACR_NAME }} --query username -o tsv)
+          ACR_PASSWORD=$(az acr credential show --name ${{ secrets.ACR_NAME }} --query "passwords[0].value" -o tsv)
+          kubectl create secret docker-registry acr-pull-secret \
+            --docker-server=${{ steps.acr.outputs.login_server }} \
+            --docker-username=$ACR_USERNAME \
+            --docker-password=$ACR_PASSWORD \
+            --dry-run=client -o yaml | kubectl apply -f -
       - name: Apply Kubernetes manifests
         run: |
           kubectl apply -f k8s/configmap.yaml
