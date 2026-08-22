@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: devops-monitoring-portal
-          image: your-acr-name.azurecr.io/devops-monitoring-portal:latest
+          image: sd1centralindiaacr.azurecr.io/devops-monitoring-portal:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
